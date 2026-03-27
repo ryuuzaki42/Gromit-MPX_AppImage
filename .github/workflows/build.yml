@@ -64,6 +64,7 @@ jobs:
         #find . | grep ".svg"
         ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.active.png Gromit-MPX.png
 
+        ls usr/local/share/applications/
         ln -s usr/local/share/applications/net.christianbeier.Gromit-MPX.desktop Gromit-MPX.desktop
         Gromit-MPX.desktop
         pwd; ls -lah
