@@ -40,7 +40,9 @@ jobs:
         tar -xvf ${version}.tar.gz
         cd gromit-mpx-${version}/
 
+        sudo apt update
         sudo apt  install cmake
+        sudo apt install libgtk-3-dev
 
         mkdir build/
         cd build/
