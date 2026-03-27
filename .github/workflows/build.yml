@@ -57,6 +57,7 @@ jobs:
 
         if [ ! -f ~/.config/gromit-mpx.cfg ]; then # Check if configuration file exists
             echo "Configuration not found! - Coping default one"
+            mkdir ~/.config/ # If use --appimage-portable-config
             cp "$HERE"/etc/gromit-mpx/gromit-mpx.cfg ~/.config/
         fi
         echo "Gromit-MPX configuration file: ~/.config/gromit-mpx.cfg"
