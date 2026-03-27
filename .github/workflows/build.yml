@@ -49,25 +49,22 @@ jobs:
 
         find .
 
-        ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.png . #net.christianbeier.Gromit-MPX.png
-        #ln -s usr/usr/local/share/icons/hicolor/scalable/apps/net.christianbeier.Gromit-MPX.svg net.christianbeier.Gromit-MPX.svg
+        #ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.png . #net.christianbeier.Gromit-MPX.png
+        ln -s usr/share/icons/hicolor/scalable/apps/net.christianbeier.Gromit-MPX.svg net.christianbeier.Gromit-MPX.svg
 
-        ln -s usr/local/share/applications/net.christianbeier.Gromit-MPX.desktop Gromit-MPX.desktop
+        ln -s usr/share/applications/net.christianbeier.Gromit-MPX.desktop Gromit-MPX.desktop
         cat Gromit-MPX.desktop
         pwd; ls -lah
 
         echo '#!/bin/bash
         HERE="$(dirname "$(readlink -f "${0}")")"
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HERE/usr/local/lib/x86_64-linux-gnu/
-        "$HERE"/usr/local/bin/gromit-mpx' > AppRun
+        "$HERE"/usr/bin/gromit-mpx' > AppRun
         chmod +x AppRun
         cat AppRun
 
         cd ../
         cp README.md squashfs-root/
         ls -lah squashfs-root/
-
-        # here
 
         #ARCH=x86_64 ./appimagetool-x86_64.AppImage squashfs-root/
         ARCH=x86_64 VERSION="${version}-${tag}_JB" ./appimagetool-x86_64.AppImage squashfs-root/
