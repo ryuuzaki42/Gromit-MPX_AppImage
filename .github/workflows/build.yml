@@ -37,13 +37,9 @@ jobs:
         tag=1 #1
 
         wget -q "https://github.com/ryuuzaki42/Gromit-MPX_AppImage/releases/download/txz_${version}/gromit-mpx-${version}-x86_64-1_JB.txz"
-        tar -xvf "gromit-mpx-${version}-x86_64-1_JB.txz"
-
-        wget -q https://github.com/bk138/gromit-mpx/archive/refs/tags/${version}.tar.gz
 
         mkdir squashfs-root/
-        
-        tar -xvf ${version}.tar.gz -C squashfs-root/
+        tar -xvf "gromit-mpx-${version}-x86_64-1_JB.txz" -C squashfs-root/
         cd squashfs-root/
         pwd; ls -lah
 
