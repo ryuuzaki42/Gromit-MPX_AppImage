@@ -12,9 +12,6 @@ jobs:
     name: Build
     runs-on: ubuntu-22.04
     #runs-on: ubuntu-latest
-    # ImportError: /lib64/libc.so.6: version `GLIBC_2.34' not found (required by
-    # /tmp/.mount_FFsub*/opt/python3.12/lib/python3.12/site-packages/_webrtcvad.cpython-312-x86_64-linux-gnu.so)
-    # ubuntu-latest or 22.04 will require GLIBC_2.34
 
     steps:
     - uses: actions/checkout@v6
@@ -32,66 +29,15 @@ jobs:
         chmod +x appimagetool-x86_64.AppImage
         pwd; ls -lah
 
-    - name: Get Pyhton AppImage
-      run: |
-        set -x
-        # Ok
-        #wget https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.19-cp39-cp39-manylinux1_x86_64.AppImage
-        wget https://github.com/niess/python-appimage/releases/download/python3.10/python3.10.6-cp310-cp310-manylinux2010_x86_64.AppImage
-
-        # Test
-        #wget https://github.com/niess/python-appimage/releases/download/python3.11/python3.11.1-cp311-cp311-manylinux_2_24_x86_64.AppImage
-
-        fileName=$(ls python3*.AppImage)
-        chmod +x "$fileName"
-        ./"$fileName" --appimage-extract
-        ls -lah
-
-    - name: Install MComix and update pip
-      run: |
-        set -x
-        version=$(grep -o "MComix:.*" README.md | cut -d ' ' -f2)
-        echo "MComix version: $version"
-
-        cd squashfs-root/opt/python3*/bin/
-        pwd; ls -lah
-
-        #./python3.* -m pip install --upgrade pip
-
-        sudo apt install libgirepository1.0-dev
-
-        #./pip3.* install PyGObject
-        ./pip3.* install PyGObject==3.50.0
-
-        #./pip3.* install pycairo
-        #./pip3.* install PyGObject
-
-        # https://sourceforge.net/projects/mcomix/files/
-        # https://sourceforge.net/p/mcomix/wiki/Installation/
-
-        #version="3.1.1" # Built locally
-        wget https://sourceforge.net/projects/mcomix/files/MComix-$version/mcomix-$version.tar.gz
-
-        tar -xvf mcomix-$version.tar.gz
-        rm mcomix-$version.tar.gz
-
-        cd mcomix-$version/
-        ../python3.* -m pip install .
-        #../python3.* -m pip install --no-deps .
-
-        pwd; ls -lah
-        cd ../
-        ./python3.* -m pip install --upgrade pip
-
     - name: Make AppImage
       run: |
         set -x
-        version=$(grep -o "MComix:.*" README.md | cut -d ' ' -f2)
-        echo "MComix version: $version"
-        tag=2 #1
+        version=$(grep -o "Gromit-MPX:.*" README.md | cut -d ' ' -f2)
+        echo "Gromit-MPX version: $version"
+        tag=1 #1
 
+        mkdir squashfs-root/
         cd squashfs-root/
-        rm -v .DirIcon AppRun
         pwd; ls -lah
 
         #find . | grep ".png"
