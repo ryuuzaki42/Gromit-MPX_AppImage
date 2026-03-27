@@ -36,13 +36,16 @@ jobs:
         echo "Gromit-MPX version: $version"
         tag=1 #1
 
-        wget https://github.com/bk138/gromit-mpx/archive/refs/tags/${version}.tar.gz
+        wget -q https://github.com/bk138/gromit-mpx/archive/refs/tags/${version}.tar.gz
         tar -xvf ${version}.tar.gz
         cd gromit-mpx-${version}/
 
+        sudo apt  install cmake
+
         mkdir build/
         cd build/
-        cmake ..
+
+        cmake ../
         make
  
          #make install
