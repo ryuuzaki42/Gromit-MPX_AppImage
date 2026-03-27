@@ -61,9 +61,10 @@ jobs:
 
         cd squashfs-root/
         pwd; ls -lah
-        #find .
 
-        ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.active.png .
+        find .
+
+        ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.active.png net.christianbeier.Gromit-MPX.png 
 
         ln -s usr/local/share/applications/net.christianbeier.Gromit-MPX.desktop Gromit-MPX.desktop
         cat Gromit-MPX.desktop
