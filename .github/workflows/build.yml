@@ -52,21 +52,18 @@ jobs:
         cmake ../
         make
  
-         #make install
-         mkdir squashfs-root//
-         make install/strip DESTDIR="squashfs-root//"
+        #make install
+        mkdir squashfs-root//
+        make install/strip DESTDIR="squashfs-root//"
 
         cd squashfs-root/
         pwd; ls -lah
-        find .
+        #find .
 
-        #find . | grep ".png"
-        #find . | grep ".svg"
         ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.active.png Gromit-MPX.png
 
-        ls usr/local/share/applications/
         ln -s usr/local/share/applications/net.christianbeier.Gromit-MPX.desktop Gromit-MPX.desktop
-        Gromit-MPX.desktop
+        cat Gromit-MPX.desktop
         pwd; ls -lah
 
         echo '#!/bin/bash
