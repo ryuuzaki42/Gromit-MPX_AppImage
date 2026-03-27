@@ -58,7 +58,7 @@ jobs:
 
         echo "XDG_CONFIG_HOME: $XDG_CONFIG_HOME"
         if [ "$XDG_CONFIG_HOME" != "" ]; then # If use --appimage-portable-config
-            config_path="$HOME/"
+            config_path="$XDG_CONFIG_HOME/"
         else
             config_path="$HOME/.config/"
         fi
