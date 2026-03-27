@@ -58,6 +58,7 @@ jobs:
 
         cd squashfs-root/
         pwd; ls -lah
+        find .
 
         #find . | grep ".png"
         #find . | grep ".svg"
