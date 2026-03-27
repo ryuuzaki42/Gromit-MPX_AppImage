@@ -84,8 +84,9 @@ jobs:
 
         ls /lib/x86_64-linux-gnu/ | grep "libayatana-appindicator3.so.1"
         mkdir -p squashfs-root/usr/local/lib/x86_64-linux-gnu/
-        cp /lib/x86_64-linux-gnu/libayatana-appindicator3.so.* squashfs-root/usr/local/lib/x86_64-linux-gnu/
-        cp /lib/x86_64-linux-gnu/libayatana-indicator3.so.* squashfs-root/usr/local/lib/x86_64-linux-gnu/
+        cp /lib/x86_64-linux-gnu/libayatana* squashfs-root/usr/local/lib/x86_64-linux-gnu/
+        #cp /lib/x86_64-linux-gnu/libayatana-indicator3.so.* squashfs-root/usr/local/lib/x86_64-linux-gnu/
+        #cp /lib/x86_64-linux-gnu/libayatana-ido3-0.4.so.* squashfs-root/usr/local/lib/x86_64-linux-gnu/
 
         #find / | grep "libayatana-appindicator3.so.1"
 
