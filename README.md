@@ -15,7 +15,7 @@ https://github.com/bk138/gromit-mpx
     CTRL-F9:   toggle visibility
     ALT-F9:    quit Gromit-MPX
     F8:        undo last stroke
-    SHIFT-F8: redo last undone stroke
+    SHIFT-F8:  redo last undone stroke
 
 ---
 https://github.com/bk138/gromit-mpx/releases
