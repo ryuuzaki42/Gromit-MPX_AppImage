@@ -41,19 +41,13 @@ jobs:
         mkdir squashfs-root/
         tar -xvf "gromit-mpx-${version}-x86_64-1_JB.txz" -C squashfs-root/
         cd squashfs-root/
-        pwd; ls -lah
 
-        find .
-
-        #ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.png . #net.christianbeier.Gromit-MPX.png
         ln -s usr/share/icons/hicolor/scalable/apps/net.christianbeier.Gromit-MPX.svg net.christianbeier.Gromit-MPX.svg
-
         ln -s usr/share/applications/net.christianbeier.Gromit-MPX.desktop Gromit-MPX.desktop
         cat Gromit-MPX.desktop
         pwd; ls -lah
 
         echo '#!/bin/bash
-        set -x
         HERE="$(dirname "$(readlink -f "${0}")")"
 
         echo "XDG_CONFIG_HOME: $XDG_CONFIG_HOME"
@@ -75,9 +69,7 @@ jobs:
 
         cd ../
         cp README.md squashfs-root/
-        ls -lah squashfs-root/
 
-        #ARCH=x86_64 ./appimagetool-x86_64.AppImage squashfs-root/
         ARCH=x86_64 VERSION="${version}-${tag}_JB" ./appimagetool-x86_64.AppImage squashfs-root/
         pwd; ls -lah
 
