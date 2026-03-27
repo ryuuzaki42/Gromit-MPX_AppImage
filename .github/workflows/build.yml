@@ -1,0 +1,160 @@
+name: Create new release
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "!**"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    #runs-on: ubuntu-latest
+    # ImportError: /lib64/libc.so.6: version `GLIBC_2.34' not found (required by
+    # /tmp/.mount_FFsub*/opt/python3.12/lib/python3.12/site-packages/_webrtcvad.cpython-312-x86_64-linux-gnu.so)
+    # ubuntu-latest or 22.04 will require GLIBC_2.34
+
+    steps:
+    - uses: actions/checkout@v6
+    - name: Install fuse and libfuse2
+      run: sudo apt install fuse libfuse2
+
+    - name: Get appimagetool
+      run: |
+        set -x
+        #wget https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
+        version_go_appimage=$(wget -q -O - https://api.github.com/repos/probonopd/go-appimage/releases | grep "\"name.*appimagetool-.*-x86_64.AppImage\"" | head -n 1 | cut -d '-' -f2)
+        echo "version_go_appimage: $version_go_appimage"
+
+        wget -q "https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-$version_go_appimage-x86_64.AppImage" -O appimagetool-x86_64.AppImage
+        chmod +x appimagetool-x86_64.AppImage
+        pwd; ls -lah
+
+    - name: Get Pyhton AppImage
+      run: |
+        set -x
+        # Ok
+        #wget https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.19-cp39-cp39-manylinux1_x86_64.AppImage
+        wget https://github.com/niess/python-appimage/releases/download/python3.10/python3.10.6-cp310-cp310-manylinux2010_x86_64.AppImage
+
+        # Test
+        #wget https://github.com/niess/python-appimage/releases/download/python3.11/python3.11.1-cp311-cp311-manylinux_2_24_x86_64.AppImage
+
+        fileName=$(ls python3*.AppImage)
+        chmod +x "$fileName"
+        ./"$fileName" --appimage-extract
+        ls -lah
+
+    - name: Install MComix and update pip
+      run: |
+        set -x
+        version=$(grep -o "MComix:.*" README.md | cut -d ' ' -f2)
+        echo "MComix version: $version"
+
+        cd squashfs-root/opt/python3*/bin/
+        pwd; ls -lah
+
+        #./python3.* -m pip install --upgrade pip
+
+        sudo apt install libgirepository1.0-dev
+
+        #./pip3.* install PyGObject
+        ./pip3.* install PyGObject==3.50.0
+
+        #./pip3.* install pycairo
+        #./pip3.* install PyGObject
+
+        # https://sourceforge.net/projects/mcomix/files/
+        # https://sourceforge.net/p/mcomix/wiki/Installation/
+
+        #version="3.1.1" # Built locally
+        wget https://sourceforge.net/projects/mcomix/files/MComix-$version/mcomix-$version.tar.gz
+
+        tar -xvf mcomix-$version.tar.gz
+        rm mcomix-$version.tar.gz
+
+        cd mcomix-$version/
+        ../python3.* -m pip install .
+        #../python3.* -m pip install --no-deps .
+
+        pwd; ls -lah
+        cd ../
+        ./python3.* -m pip install --upgrade pip
+
+    - name: Make AppImage
+      run: |
+        set -x
+        version=$(grep -o "MComix:.*" README.md | cut -d ' ' -f2)
+        echo "MComix version: $version"
+        tag=2 #1
+
+        cd squashfs-root/
+        rm -v .DirIcon AppRun
+        pwd; ls -lah
+
+        #find . | grep ".png"
+        #find . | grep ".svg"
+        rm python.png
+        ln -s opt/python3.10/bin/mcomix-3.1.1/share/icons/hicolor/48x48/apps/mcomix.png MComix.png
+        pwd; ls -lah
+
+        #find . | grep ".desktop"
+        rm python*.desktop
+
+        echo '[Desktop Entry]
+        Name=MComix
+        GenericName=Comic Book Viewer
+        Comment=A viewer for comic book archives
+        Exec=mcomix %f
+        Icon=MComix
+        Type=Application
+        StartupNotify=true
+        Categories=Graphics;Viewer;
+        MimeType=application/vnd.comicbook-rar;application/vnd.comicbook+zip;application/vnd.comicbook+pdf;application/x-cb7;application/x-ext-cb7;application/x-cbr;application/x-ext-cbr;application/x-cbt;application/x-ext-cbt;application/x-cbz;application/x-ext-cbz;application/pdf;application/x-pdf;application/x-ext-pdf;application/x-cbp;application/x-ext-cbp;image/bmp;image/x-MS-bmp;image/x-bmp;image/gif;image/jpeg;image/png;image/tiff;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;
+        Terminal=false' > MComix.desktop
+
+        chmod +x MComix.desktop
+        cat MComix.desktop
+        pwd; ls -lah
+
+        echo '#!/bin/bash
+        HERE="$(dirname "$(readlink -f "${0}")")"
+
+        echo -e "Running MComix with parameter: \"$1\"\n"
+        if [ "$1" != "" ]; then
+            par_1="$PWD/$1" # Add the current directory, $PWD, to the first parameter
+            "$HERE"/opt/python3.*/bin/python3.* "$HERE"/opt/python3.*/bin/mcomix "$par_1"
+        else
+            "$HERE"/opt/python3.*/bin/python3.* "$HERE"/opt/python3.*/bin/mcomix
+        fi' > AppRun
+
+        chmod +x AppRun
+        cat AppRun
+
+        cd ../
+        cp README.md squashfs-root/
+        ls -lah squashfs-root/
+
+        # Wrong permissions on AppDir, please set it to 0755 and try again
+        chmod 0755 squashfs-root/
+
+        #ARCH=x86_64 ./appimagetool-x86_64.AppImage squashfs-root/
+        ARCH=x86_64 VERSION="${version}-${tag}_JB" ./appimagetool-x86_64.AppImage squashfs-root/
+        pwd; ls -lah
+
+        fileName=$(ls MComix*.AppImage)
+        echo "fileName: $fileName"
+        md5sum "$fileName" > "${fileName}.md5"
+        pwd; ls -lah
+
+    - uses: xresloader/upload-to-github-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          file: "MComix*.AppImage; MComix*.zsync; MComix*.md5"
+          #overwrite: true
+          verbose: true
+          draft: false
+          default_release_name: "MComix V in AppImage"
