@@ -64,7 +64,8 @@ jobs:
 
         find .
 
-        ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.active.png net.christianbeier.Gromit-MPX.png 
+        #ln -s usr/local/share/pixmaps/net.christianbeier.Gromit-MPX.active.png net.christianbeier.Gromit-MPX.png
+        ln -s usr/usr/local/share/icons/hicolor/scalable/apps/net.christianbeier.Gromit-MPX.svg .
 
         ln -s usr/local/share/applications/net.christianbeier.Gromit-MPX.desktop Gromit-MPX.desktop
         cat Gromit-MPX.desktop
@@ -72,15 +73,7 @@ jobs:
 
         echo '#!/bin/bash
         HERE="$(dirname "$(readlink -f "${0}")")"
-
-        echo -e "Running MComix with parameter: \"$1\"\n"
-        if [ "$1" != "" ]; then
-            par_1="$PWD/$1" # Add the current directory, $PWD, to the first parameter
-            "$HERE"/opt/python3.*/bin/python3.* "$HERE"/opt/python3.*/bin/mcomix "$par_1"
-        else
-            "$HERE"/opt/python3.*/bin/python3.* "$HERE"/opt/python3.*/bin/mcomix
-        fi' > AppRun
-
+        "$HERE"/usr/local/bin/gromit-mpx' > AppRun
         chmod +x AppRun
         cat AppRun
 
@@ -108,4 +101,4 @@ jobs:
           #overwrite: true
           verbose: true
           draft: false
-          default_release_name: "MComix V in AppImage"
+          default_release_name: "Gromit-MPX V in AppImage"
