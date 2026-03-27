@@ -1,12 +1,12 @@
 
-# MComix_AppImage
+# Gromit-MPX_AppImage
 
-MComix is a user-friendly, customizable image viewer. It is specifically designed to handle comic books (both Western comics and manga) and supports a variety of container formats (including CBR, CBZ, CB7, CBT, LHA and PDF).
+Gromit-MPX is an on-screen annotation tool that works with any Unix desktop environment under X11 as well as XWayland.
 
-https://sourceforge.net/projects/mcomix/
+https://github.com/bk138/gromit-mpx
 
-## Repository: https://github.com/ryuuzaki42/MComix_AppImage
-    MComix: 3.1.1
+## Repository: https://github.com/ryuuzaki42/Gromit-MPX_AppImage
+    MComix: 1.7.0
 
 ---
-https://sourceforge.net/projects/mcomix/files/
+https://github.com/bk138/gromit-mpx/releases
