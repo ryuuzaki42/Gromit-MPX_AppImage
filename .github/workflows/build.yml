@@ -36,7 +36,19 @@ jobs:
         echo "Gromit-MPX version: $version"
         tag=1 #1
 
-        mkdir squashfs-root/
+        wget https://github.com/bk138/gromit-mpx/archive/refs/tags/${version}.tar.gz
+        tar -xvf ${version}.tar.gz
+        cd gromit-mpx-${version}/
+
+        mkdir build/
+        cd build/
+        cmake ..
+        make
+ 
+         #make install
+         mkdir squashfs-root//
+         make install/strip DESTDIR="squashfs-root//"
+
         cd squashfs-root/
         pwd; ls -lah
 
@@ -90,7 +102,7 @@ jobs:
         ARCH=x86_64 VERSION="${version}-${tag}_JB" ./appimagetool-x86_64.AppImage squashfs-root/
         pwd; ls -lah
 
-        fileName=$(ls MComix*.AppImage)
+        fileName=$(ls Gromit-MPX*.AppImage)
         echo "fileName: $fileName"
         md5sum "$fileName" > "${fileName}.md5"
         pwd; ls -lah
@@ -99,7 +111,7 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          file: "MComix*.AppImage; MComix*.zsync; MComix*.md5"
+          file: "Gromit-MPX*.AppImage; Gromit-MPX*.zsync; Gromit-MPX*.md5"
           #overwrite: true
           verbose: true
           draft: false
