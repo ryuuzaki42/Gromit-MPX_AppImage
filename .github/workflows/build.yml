@@ -53,8 +53,10 @@ jobs:
         make
  
         #make install
-        mkdir squashfs-root//
-        make install/strip DESTDIR="squashfs-root//"
+        mkdir squashfs-root/
+        make install/strip DESTDIR="squashfs-root/"
+
+        mv squashfs-root/ ../../
 
         cd squashfs-root/
         pwd; ls -lah
@@ -80,7 +82,7 @@ jobs:
         chmod +x AppRun
         cat AppRun
 
-        cd ../../
+        cd ../
         cp README.md gromit-mpx-${version}/squashfs-root/
         cp appimagetool-x86_64.AppImage gromit-mpx-${version}/
         ls -lah squashfs-root/
