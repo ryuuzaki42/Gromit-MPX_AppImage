@@ -84,8 +84,7 @@ jobs:
         cat AppRun
 
         cd ../
-        cp README.md gromit-mpx-${version}/squashfs-root/
-        cp appimagetool-x86_64.AppImage gromit-mpx-${version}/
+        cp README.md squashfs-root/
         ls -lah squashfs-root/
 
         # Wrong permissions on AppDir, please set it to 0755 and try again
