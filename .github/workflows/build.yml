@@ -57,6 +57,7 @@ jobs:
         make install/strip DESTDIR="squashfs-root/"
 
         mv squashfs-root/ ../../
+        cd ../../
 
         cd squashfs-root/
         pwd; ls -lah
