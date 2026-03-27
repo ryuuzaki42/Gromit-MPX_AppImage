@@ -53,14 +53,21 @@ jobs:
         pwd; ls -lah
 
         echo '#!/bin/bash
+        set -x
         HERE="$(dirname "$(readlink -f "${0}")")"
+
+        echo "XDG_CONFIG_HOME $XDG_CONFIG_HOME"
+        if [ "$XDG_CONFIG_HOME" == '' ]; then
+            config_path="$HOME/.config/"
+        else # If use --appimage-portable-config
+            config_path="$HOME/"
+        fi
 
         if [ ! -f ~/.config/gromit-mpx.cfg ]; then # Check if configuration file exists
             echo "Configuration not found! - Coping default one"
-            mkdir ~/.config/ # If use --appimage-portable-config
-            cp "$HERE"/etc/gromit-mpx/gromit-mpx.cfg ~/.config/
+            cp "$HERE"/etc/gromit-mpx/gromit-mpx.cfg "$config_path"
         fi
-        echo "Gromit-MPX configuration file: ~/.config/gromit-mpx.cfg"
+        echo "Gromit-MPX configuration file: $config_path/gromit-mpx.cfg"
 
         "$HERE"/usr/bin/gromit-mpx $@' > AppRun
         chmod +x AppRun
