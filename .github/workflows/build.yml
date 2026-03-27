@@ -49,20 +49,14 @@ jobs:
         mkdir build/
         cd build/
 
-        ../../conty.sh ldd --version
+        cmake ../
+        make
 
-        #cmake ../
-        #make
-
-        ../../conty.sh cmake ../
-        ../../conty.sh make
         
         #make install
         mkdir squashfs-root/
         
-        #make install/strip DESTDIR="squashfs-root/"
-
-        ../../conty.sh make install/strip DESTDIR="squashfs-root/"
+        make install/strip DESTDIR="squashfs-root/"
 
         mv squashfs-root/ ../../
         cd ../../
