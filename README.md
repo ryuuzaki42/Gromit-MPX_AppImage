@@ -7,6 +7,8 @@ https://github.com/bk138/gromit-mpx
 
 ## Repository: https://github.com/ryuuzaki42/Gromit-MPX_AppImage
 
+* Created using Slackware packages (txz), built using SlackBuilds scripts (https://slackbuilds.org/repository/15.0/desktop/gromit-mpx/).
+
 ---
 ### How Use:
 
