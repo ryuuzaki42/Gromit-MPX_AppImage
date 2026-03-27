@@ -30,7 +30,7 @@ jobs:
     - name: Make AppImage
       run: |
         set -x
-        version="1.8.0"
+        version="1.9.0"
         echo "Gromit-MPX version: $version"
         tag=1 #1
 
